@@ -15,7 +15,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: [test_django_job]
     env:
-      DJANGO_SECRET_KEY: test-key-not-good-maybe-make-one-better
       CLUSTER_NAME: django-k8s
     steps:
       - name: Checkout code
@@ -41,7 +40,7 @@ jobs:
           doctl kubernetes cluster kubeconfig save --expiry-seconds 600 ${{ env.CLUSTER_NAME }}
       - name: Update deployment secrets
         run: |
-          cat << EOF >> web./env.prod
+          cat << EOF >> web/.env.prod
           DJANGO_SUPERUSER_USERNAME=${{ secrets.DJANGO_SUPERUSER_USERNAME }}
           DJANGO_SUPERUSER_PASSWORD=${{ secrets.DJANGO_SUPERUSER_PASSWORD }}
           DJANGO_SUPERUSER_EMAIL=${{ secrets.DJANGO_SUPERUSER_EMAIL }}
