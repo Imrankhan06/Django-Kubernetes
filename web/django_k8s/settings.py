@@ -16,7 +16,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
@@ -28,9 +27,7 @@ DEBUG = str(os.environ.get('DEBUG')) == "1"
 ENV_ALLOWED_HOST = os.environ.get("ENV_ALLOWED_HOST")
 ALLOWED_HOSTS = []
 if ENV_ALLOWED_HOST:
-    ALLOWED_HOSTS = [ ENV_ALLOWED_HOST ]
-
-
+    ALLOWED_HOSTS = [ENV_ALLOWED_HOST]
 
 # Application definition
 
@@ -41,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -73,7 +71,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'django_k8s.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
@@ -98,7 +95,7 @@ DB_IS_AVAIL = all([
     DB_PORT
 ])
 
-DB_IGNORE_SSL=os.environ.get("DB_IGNORE_SSL") == "true"
+DB_IGNORE_SSL = os.environ.get("DB_IGNORE_SSL") == "true"
 
 if DB_IS_AVAIL:
     DATABASES = {
@@ -112,10 +109,9 @@ if DB_IS_AVAIL:
         }
     }
     if not DB_IGNORE_SSL:
-         DATABASES["default"]["OPTIONS"] = {
+        DATABASES["default"]["OPTIONS"] = {
             "sslmode": "require"
-         }
-
+        }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -135,7 +131,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
@@ -147,7 +142,6 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
@@ -157,3 +151,11 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+STATIC_ROOT = BASE_DIR / "staticfiles-cdn"
+
+STATICFILES_DIR = [
+    BASE_DIR / "staticfiles"
+]
+
+# from .cdn.conf import * #noqa
