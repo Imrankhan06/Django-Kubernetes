@@ -20,7 +20,7 @@ jobs:
       POSTGRES_PORT: 5432
       DB_IGNORE_SSL: "true"
     services:
-      postgres_mian: 
+      postgres_main:
         image: postgres:14
         env: 
           POSTGRES_DB: ${{ env.POSTGRES_DB }}   
